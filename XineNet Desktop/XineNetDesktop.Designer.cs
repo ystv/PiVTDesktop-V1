@@ -51,6 +51,7 @@
             this.btnUp = new System.Windows.Forms.Button();
             this.btnDown = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.cbLoopItem = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVideos)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -186,14 +187,14 @@
             // openPlaylistToolStripMenuItem
             // 
             this.openPlaylistToolStripMenuItem.Name = "openPlaylistToolStripMenuItem";
-            this.openPlaylistToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openPlaylistToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.openPlaylistToolStripMenuItem.Text = "Open Playlist";
             this.openPlaylistToolStripMenuItem.Click += new System.EventHandler(this.openPlaylistToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.settingsToolStripMenuItem.Text = "settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
@@ -215,7 +216,7 @@
             // cbContPlay
             // 
             this.cbContPlay.AutoSize = true;
-            this.cbContPlay.Location = new System.Drawing.Point(487, 152);
+            this.cbContPlay.Location = new System.Drawing.Point(419, 156);
             this.cbContPlay.Name = "cbContPlay";
             this.cbContPlay.Size = new System.Drawing.Size(115, 17);
             this.cbContPlay.TabIndex = 9;
@@ -271,11 +272,23 @@
             this.openFileDialog1.InitialDirectory = ".";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
+            // cbLoopItem
+            // 
+            this.cbLoopItem.AutoSize = true;
+            this.cbLoopItem.Location = new System.Drawing.Point(540, 156);
+            this.cbLoopItem.Name = "cbLoopItem";
+            this.cbLoopItem.Size = new System.Drawing.Size(96, 17);
+            this.cbLoopItem.TabIndex = 14;
+            this.cbLoopItem.Text = "Loop This Item";
+            this.cbLoopItem.UseVisualStyleBackColor = true;
+            this.cbLoopItem.CheckedChanged += new System.EventHandler(this.cbLoopItem_CheckedChanged);
+            // 
             // XineNetDesktop
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(702, 475);
+            this.Controls.Add(this.cbLoopItem);
             this.Controls.Add(this.btnDown);
             this.Controls.Add(this.btnUp);
             this.Controls.Add(this.cbLoop);
@@ -327,6 +340,7 @@
         private System.Windows.Forms.Button btnDown;
         private System.Windows.Forms.ToolStripMenuItem openPlaylistToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.CheckBox cbLoopItem;
     }
 }
 

@@ -82,9 +82,14 @@ namespace XineNet_Desktop
                     //ok, it failed. Meh.
 
                 }
-                if (connection == null)
+                if (connection == null || !connection.Connected)
                 {
                     //bugger. Not connected.
+                    connected = false;
+                    if (connectionStatusChanged != null)
+                    {
+                        connectionStatusChanged(this, EventArgs.Empty);
+                    }
                 }
                 else
                 {
@@ -103,8 +108,19 @@ namespace XineNet_Desktop
         public void stopreading()
         {
             //abort the thread. Note thread doesn't actually close until the stream closes.
-            readerthread.Abort();
-            constream.Close();
+            if (readerthread != null)
+            {
+                readerthread.Abort();
+            }
+            if (constream != null)
+            {
+                constream.Close();
+            }
+            connected = false;
+            if (connectionStatusChanged != null)
+            {
+                connectionStatusChanged(this, EventArgs.Empty);
+            }
         }
 
         //handles messages starting with STAT
@@ -115,7 +131,18 @@ namespace XineNet_Desktop
             {
                 case "Playing":
                     playing = true;
-                    currentvideo = chunks[2].TrimStart('\'').TrimEnd('\'');
+                    string vfn = "";
+                    int i = 2;
+                    while (i < chunks.GetLength(0))
+                    {
+                        if (i > 2)
+                        {
+                            vfn += " ";
+                        }
+                        vfn += chunks[i];
+                        i++;
+                    }
+                    currentvideo = vfn.TrimStart('\'').TrimEnd('\'');
                     playerStatusChanged(this, EventArgs.Empty);
                     break;
                 case "Stopped":

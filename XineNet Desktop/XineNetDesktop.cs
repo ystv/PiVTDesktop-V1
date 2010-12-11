@@ -73,6 +73,12 @@ namespace XineNet_Desktop
             updateplayingstatus();
         }
 
+        void updateSettings(object sender, EventArgs e)
+        {
+            playserver.stopreading();
+            playserver.connect(conf.serverhost, conf.serverport);
+        }
+
         void updateconnectbox()
         {
             if (playserver.connected)
@@ -96,6 +102,8 @@ namespace XineNet_Desktop
                 #region Big Ugly Methodinvoker named minv
                 MethodInvoker minv = new MethodInvoker(delegate()
                 {
+                    lblplaying.Visible = true;
+                    playtitle.Visible = true;
                     if (playserver.playing)
                     {
                         if (playingindex > -1)
@@ -137,7 +145,11 @@ namespace XineNet_Desktop
                             }
                             dgvVideos.Rows[playingindex].Cells[2].Value = true;
                             int nextselected = 0;
-                            if (dgvVideos.RowCount > (playingindex + 1))
+                            if (cbLoopItem.Checked && !cbContPlay.Checked)
+                            {
+                                nextselected = playingindex;
+                            }
+                            else if (dgvVideos.RowCount > (playingindex + 1))
                             {
                                 nextselected = playingindex + 1;
                             }
@@ -145,10 +157,11 @@ namespace XineNet_Desktop
                             dgvVideos.Rows[nextselected].Selected = true;
                             playingindex = -1;
                             //this needs a touch of explanation:
-                            //either, continuous play is checked and it's not the first item,
+                            //either cbLoopItem is checked and cbContPlay is not checked, so we play again
+                            //or continuous play is checked and it's not the first item,
                             //or continuous play is checked and it's on loop.
                             //this results in it only restarting the list if it's on loop.
-                            if ((cbContPlay.Checked && dgvVideos.SelectedCells[0].RowIndex != 0) ||(cbContPlay.Checked && cbLoop.Checked))
+                            if ((cbLoopItem.Checked && !cbContPlay.Checked) || (cbContPlay.Checked && dgvVideos.SelectedCells[0].RowIndex != 0) ||(cbContPlay.Checked && cbLoop.Checked))
                             {
                                 playserver.playvid(dgvVideos.Rows[dgvVideos.SelectedCells[0].RowIndex].Cells[0].Value.ToString());
                                 playingindex = dgvVideos.SelectedCells[0].RowIndex;
@@ -230,6 +243,7 @@ namespace XineNet_Desktop
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Settings box = new Settings(conf);
+            box.settingsChanged += new settingsChangedHandler(updateSettings);
             box.Show();
         }
 
@@ -278,6 +292,7 @@ namespace XineNet_Desktop
         private void cbContPlay_CheckedChanged(object sender, EventArgs e)
         {
             cbLoop.Visible = cbContPlay.Checked;
+            cbLoopItem.Visible = !cbContPlay.Checked;
         }
 
         private void btnUp_Click(object sender, EventArgs e)
@@ -314,6 +329,12 @@ namespace XineNet_Desktop
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
             PlaylistChange(openFileDialog1.FileName);
+        }
+
+        private void cbLoopItem_CheckedChanged(object sender, EventArgs e)
+        {
+            cbContPlay.Visible = !cbContPlay.Checked;
+            
         }
 
     }
