@@ -72,27 +72,33 @@ namespace XineNet_Desktop
         {
             //write back to xml file in case of changes
             XmlTextWriter configwriter;
-            if(plname.EndsWith(".xml"))
-                configwriter = new XmlTextWriter(plname, null);
-            else 
-                configwriter = new XmlTextWriter(plname + ".xml", null);
-            configwriter.WriteStartDocument();
-            configwriter.WriteStartElement("playlist");
-            foreach (PLItem pli in playlist)
+            try
             {
-                configwriter.WriteStartElement("item");
-                configwriter.WriteStartElement("filename");
-                configwriter.WriteString(pli.getFilename());
-                configwriter.WriteEndElement();
-                configwriter.WriteStartElement("length");
-                configwriter.WriteString(pli.getLength().ToString());
-                configwriter.WriteEndElement();
-                configwriter.WriteEndElement();
-            }
+                if (plname.EndsWith(".xml"))
+                    configwriter = new XmlTextWriter(plname, null);
+                else
+                    configwriter = new XmlTextWriter(plname + ".xml", null);
+                configwriter.WriteStartDocument();
+                configwriter.WriteStartElement("playlist");
+                foreach (PLItem pli in playlist)
+                {
+                    configwriter.WriteStartElement("item");
+                    configwriter.WriteStartElement("filename");
+                    configwriter.WriteString(pli.getFilename());
+                    configwriter.WriteEndElement();
+                    configwriter.WriteStartElement("length");
+                    configwriter.WriteString(pli.getLength().ToString());
+                    configwriter.WriteEndElement();
+                    configwriter.WriteEndElement();
+                }
 
-            configwriter.WriteEndElement();
-            configwriter.WriteEndDocument();
-            configwriter.Close();
+                configwriter.WriteEndElement();
+                configwriter.Close();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Sorry. Couldn't save the playlist file, is it read only?");
+            }
         }
 
         public void moveup(int pos)
