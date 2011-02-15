@@ -16,7 +16,7 @@ namespace XineNet_Desktop
         System.Timers.Timer RemainingTimer;
         int playingindex = -1;
         PlayListLoader playlist;
-
+        SerialTally tally;
         public XineNetDesktop()
         {
             InitializeComponent();
@@ -33,6 +33,26 @@ namespace XineNet_Desktop
 
             playserver.getStatus();
             cbLoop.Visible = cbContPlay.Checked;
+
+            tally = new SerialTally();
+            string[] ports = System.IO.Ports.SerialPort.GetPortNames();
+            for (int i = 0; i < ports.Length; i++)
+            {
+                spCB.Items.Add(ports[i]);
+            }
+            if (spCB.Items.Count > 0)
+                spCB.SelectedIndex = 0;
+            else
+                button1.Enabled = false;
+            tally.statusevt += new StatusChanged(tally_statusevt);
+        }
+
+        void tally_statusevt()
+        {
+            this.Invoke((MethodInvoker)delegate
+            {
+                updateTally();
+            });
         }
 
         void PlaylistChange(string filename)
@@ -210,14 +230,19 @@ namespace XineNet_Desktop
             }
         }
 
-        private void btnPlay_Click(object sender, EventArgs e)
+        private void play() 
         {
-            if (dgvVideos.Rows.Count > 0)
+            if (dgvVideos.Rows.Count > 0 && !playserver.playing)
             {
                 playserver.playvid(dgvVideos.Rows[dgvVideos.SelectedCells[0].RowIndex].Cells[0].Value.ToString());
                 playingindex = dgvVideos.SelectedCells[0].RowIndex;
                 setupSecRemaining();
             }
+        }
+
+        private void btnPlay_Click(object sender, EventArgs e)
+        {
+            play();
         }
 
         private void btnResetPlay_Click(object sender, EventArgs e)
@@ -335,6 +360,69 @@ namespace XineNet_Desktop
         {
             cbContPlay.Visible = !cbContPlay.Checked;
             
+        }
+
+        private void updateTally()
+        {
+            if (!tally.connected())
+            {
+                panel1.Visible = false;
+                panel2.Visible = false;
+                panel3.Visible = false;
+                panel4.Visible = false;
+                label1.Visible = false;
+            }
+            else
+            {
+                label1.Visible = true;
+                panel1.Visible = true;
+                panel2.Visible = true;
+                panel3.Visible = true;
+                panel4.Visible = true;
+                panel1.BackColor = Color.Red;
+                panel2.BackColor = Color.Red;
+                panel3.BackColor = Color.Red;
+                panel4.BackColor = Color.Red;
+                if (tally.getTally(1))
+                    panel1.BackColor = Color.Green;
+                if (tally.getTally(2))
+                    panel2.BackColor = Color.Green;
+                if (tally.getTally(3))
+                    panel3.BackColor = Color.Green;
+                if (tally.getTally(4))
+                    panel4.BackColor = Color.Green;
+            }
+            if (checkBox1.Checked && tally.getTally(1))
+            {
+                play();
+            }
+            if (checkBox2.Checked && tally.getTally(2))
+            {
+                play();
+            }
+            if (checkBox3.Checked && tally.getTally(3))
+            {
+                play();
+            }
+            if (checkBox4.Checked && tally.getTally(4))
+            {
+                play();
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (!tally.connected())
+            {
+                tally.connect((string)spCB.Items[spCB.SelectedIndex]);
+                button1.Text = "Disconnect";
+
+            }
+            else
+            {
+                button1.Text = "Connect";
+                tally.disconnect();
+            }
         }
 
     }

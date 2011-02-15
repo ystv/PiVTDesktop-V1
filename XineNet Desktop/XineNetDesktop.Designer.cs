@@ -52,8 +52,21 @@
             this.btnDown = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.cbLoopItem = new System.Windows.Forms.CheckBox();
+            this.spCB = new System.Windows.Forms.ComboBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVideos)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvVideos
@@ -121,7 +134,7 @@
             // lblStat
             // 
             this.lblStat.AutoSize = true;
-            this.lblStat.Location = new System.Drawing.Point(377, 362);
+            this.lblStat.Location = new System.Drawing.Point(416, 332);
             this.lblStat.Name = "lblStat";
             this.lblStat.Size = new System.Drawing.Size(74, 13);
             this.lblStat.TabIndex = 3;
@@ -130,7 +143,7 @@
             // svrStatus
             // 
             this.svrStatus.AutoSize = true;
-            this.svrStatus.Location = new System.Drawing.Point(461, 362);
+            this.svrStatus.Location = new System.Drawing.Point(500, 332);
             this.svrStatus.Name = "svrStatus";
             this.svrStatus.Size = new System.Drawing.Size(79, 13);
             this.svrStatus.TabIndex = 4;
@@ -139,7 +152,7 @@
             // lblplaying
             // 
             this.lblplaying.AutoSize = true;
-            this.lblplaying.Location = new System.Drawing.Point(363, 384);
+            this.lblplaying.Location = new System.Drawing.Point(402, 354);
             this.lblplaying.Name = "lblplaying";
             this.lblplaying.Size = new System.Drawing.Size(88, 13);
             this.lblplaying.TabIndex = 5;
@@ -148,7 +161,7 @@
             // playtitle
             // 
             this.playtitle.AutoSize = true;
-            this.playtitle.Location = new System.Drawing.Point(461, 384);
+            this.playtitle.Location = new System.Drawing.Point(500, 354);
             this.playtitle.Name = "playtitle";
             this.playtitle.Size = new System.Drawing.Size(44, 13);
             this.playtitle.TabIndex = 6;
@@ -283,11 +296,123 @@
             this.cbLoopItem.UseVisualStyleBackColor = true;
             this.cbLoopItem.CheckedChanged += new System.EventHandler(this.cbLoopItem_CheckedChanged);
             // 
+            // spCB
+            // 
+            this.spCB.FormattingEnabled = true;
+            this.spCB.Location = new System.Drawing.Point(12, 14);
+            this.spCB.Name = "spCB";
+            this.spCB.Size = new System.Drawing.Size(77, 21);
+            this.spCB.TabIndex = 15;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.checkBox4);
+            this.groupBox1.Controls.Add(this.checkBox3);
+            this.groupBox1.Controls.Add(this.checkBox2);
+            this.groupBox1.Controls.Add(this.checkBox1);
+            this.groupBox1.Controls.Add(this.panel4);
+            this.groupBox1.Controls.Add(this.panel3);
+            this.groupBox1.Controls.Add(this.panel2);
+            this.groupBox1.Controls.Add(this.panel1);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.spCB);
+            this.groupBox1.Location = new System.Drawing.Point(344, 381);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(332, 89);
+            this.groupBox1.TabIndex = 16;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Serial Tally";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(13, 45);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 43);
+            this.button1.TabIndex = 16;
+            this.button1.Text = "Connect";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(157, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(67, 13);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "1    2    3    4";
+            // 
+            // panel1
+            // 
+            this.panel1.Location = new System.Drawing.Point(155, 36);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(16, 16);
+            this.panel1.TabIndex = 18;
+            // 
+            // panel2
+            // 
+            this.panel2.Location = new System.Drawing.Point(173, 36);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(16, 16);
+            this.panel2.TabIndex = 19;
+            // 
+            // panel3
+            // 
+            this.panel3.Location = new System.Drawing.Point(192, 36);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(16, 16);
+            this.panel3.TabIndex = 20;
+            // 
+            // panel4
+            // 
+            this.panel4.Location = new System.Drawing.Point(210, 36);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(16, 16);
+            this.panel4.TabIndex = 21;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(157, 60);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(15, 14);
+            this.checkBox1.TabIndex = 22;
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(176, 60);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(15, 14);
+            this.checkBox2.TabIndex = 23;
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(193, 60);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(15, 14);
+            this.checkBox3.TabIndex = 24;
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(212, 60);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(15, 14);
+            this.checkBox4.TabIndex = 25;
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
             // XineNetDesktop
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(702, 475);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cbLoopItem);
             this.Controls.Add(this.btnDown);
             this.Controls.Add(this.btnUp);
@@ -310,6 +435,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvVideos)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -341,6 +468,18 @@
         private System.Windows.Forms.ToolStripMenuItem openPlaylistToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.CheckBox cbLoopItem;
+        private System.Windows.Forms.ComboBox spCB;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

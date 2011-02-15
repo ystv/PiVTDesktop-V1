@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="PlayListLoader.cs" />
     <Compile Include="PLItem.cs" />
+    <Compile Include="SerialTally.cs" />
     <Compile Include="Settings.cs">
       <SubType>Form</SubType>
     </Compile>

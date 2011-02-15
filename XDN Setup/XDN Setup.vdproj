@@ -62,6 +62,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
             }
         }
         "Release"
@@ -236,15 +249,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:XineNet Desktop"
-        "ProductCode" = "8:{5AD09D3E-7E9A-4B63-988A-3BD247E1BFF4}"
-        "PackageCode" = "8:{7D6DC131-E4D3-4E1A-81F0-9B7CA34B3BF0}"
+        "ProductCode" = "8:{FA837758-BA0A-4B04-9ACA-67760BBF8095}"
+        "PackageCode" = "8:{AF854A97-8177-42AA-A64B-FCFCF1C941C7}"
         "UpgradeCode" = "8:{68629DAE-6390-4D35-9EB0-879EC431350A}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.2"
+        "ProductVersion" = "8:1.0.5"
         "Manufacturer" = "8:YSTV"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
