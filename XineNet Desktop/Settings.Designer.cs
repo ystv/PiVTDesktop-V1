@@ -73,7 +73,7 @@
             this.btnGoDoStuff.Name = "btnGoDoStuff";
             this.btnGoDoStuff.Size = new System.Drawing.Size(85, 39);
             this.btnGoDoStuff.TabIndex = 4;
-            this.btnGoDoStuff.Text = "ok.";
+            this.btnGoDoStuff.Text = "OK";
             this.btnGoDoStuff.UseVisualStyleBackColor = true;
             this.btnGoDoStuff.Click += new System.EventHandler(this.btnGoDoStuff_Click);
             // 

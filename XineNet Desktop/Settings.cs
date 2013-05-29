@@ -28,6 +28,9 @@ namespace XineNet_Desktop
             conf.serverhost = tbHost.Text;
             conf.serverport = int.Parse(tbPort.Text);
             settingsChanged(this, EventArgs.Empty); //throw event to tell client to update
+            Properties.Settings.Default.Server = tbHost.Text;
+            Properties.Settings.Default.Port = int.Parse(tbPort.Text);
+            Properties.Settings.Default.Save();
             this.Close();
         }
     }

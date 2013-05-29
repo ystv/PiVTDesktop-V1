@@ -127,6 +127,14 @@ namespace XineNet_Desktop
             }
         }
 
+        public void delete(int pos)
+        {
+            if (pos > 0 && pos < playlist.Count)
+            {
+                playlist.RemoveAt(pos);
+            }
+        }
+
         private static int comparebypos(PLItem a, PLItem b)
         {
             if (b.position > a.position)

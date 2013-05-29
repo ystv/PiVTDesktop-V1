@@ -54,16 +54,17 @@
             this.cbLoopItem = new System.Windows.Forms.CheckBox();
             this.spCB = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVideos)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -87,6 +88,7 @@
             this.dgvVideos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvVideos.Size = new System.Drawing.Size(305, 338);
             this.dgvVideos.TabIndex = 0;
+            this.dgvVideos.SelectionChanged += new System.EventHandler(this.dgvVideos_SelectionChanged);
             // 
             // Video
             // 
@@ -112,6 +114,7 @@
             // 
             // btnPlay
             // 
+            this.btnPlay.Enabled = false;
             this.btnPlay.Location = new System.Drawing.Point(366, 85);
             this.btnPlay.Name = "btnPlay";
             this.btnPlay.Size = new System.Drawing.Size(106, 50);
@@ -207,8 +210,8 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.settingsToolStripMenuItem.Text = "settings";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // connectionToolStripMenuItem
@@ -229,7 +232,7 @@
             // cbContPlay
             // 
             this.cbContPlay.AutoSize = true;
-            this.cbContPlay.Location = new System.Drawing.Point(419, 156);
+            this.cbContPlay.Location = new System.Drawing.Point(419, 176);
             this.cbContPlay.Name = "cbContPlay";
             this.cbContPlay.Size = new System.Drawing.Size(115, 17);
             this.cbContPlay.TabIndex = 9;
@@ -252,7 +255,7 @@
             // cbLoop
             // 
             this.cbLoop.AutoSize = true;
-            this.cbLoop.Location = new System.Drawing.Point(488, 179);
+            this.cbLoop.Location = new System.Drawing.Point(419, 199);
             this.cbLoop.Name = "cbLoop";
             this.cbLoop.Size = new System.Drawing.Size(85, 17);
             this.cbLoop.TabIndex = 11;
@@ -288,7 +291,7 @@
             // cbLoopItem
             // 
             this.cbLoopItem.AutoSize = true;
-            this.cbLoopItem.Location = new System.Drawing.Point(540, 156);
+            this.cbLoopItem.Location = new System.Drawing.Point(419, 153);
             this.cbLoopItem.Name = "cbLoopItem";
             this.cbLoopItem.Size = new System.Drawing.Size(96, 17);
             this.cbLoopItem.TabIndex = 14;
@@ -324,70 +327,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Serial Tally";
             // 
-            // button1
+            // checkBox4
             // 
-            this.button1.Location = new System.Drawing.Point(13, 45);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 43);
-            this.button1.TabIndex = 16;
-            this.button1.Text = "Connect";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(157, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 13);
-            this.label1.TabIndex = 17;
-            this.label1.Text = "1    2    3    4";
-            // 
-            // panel1
-            // 
-            this.panel1.Location = new System.Drawing.Point(155, 36);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(16, 16);
-            this.panel1.TabIndex = 18;
-            // 
-            // panel2
-            // 
-            this.panel2.Location = new System.Drawing.Point(173, 36);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(16, 16);
-            this.panel2.TabIndex = 19;
-            // 
-            // panel3
-            // 
-            this.panel3.Location = new System.Drawing.Point(192, 36);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(16, 16);
-            this.panel3.TabIndex = 20;
-            // 
-            // panel4
-            // 
-            this.panel4.Location = new System.Drawing.Point(210, 36);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(16, 16);
-            this.panel4.TabIndex = 21;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(157, 60);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(15, 14);
-            this.checkBox1.TabIndex = 22;
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(176, 60);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(15, 14);
-            this.checkBox2.TabIndex = 23;
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(212, 60);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(15, 14);
+            this.checkBox4.TabIndex = 25;
+            this.checkBox4.UseVisualStyleBackColor = true;
             // 
             // checkBox3
             // 
@@ -398,20 +345,87 @@
             this.checkBox3.TabIndex = 24;
             this.checkBox3.UseVisualStyleBackColor = true;
             // 
-            // checkBox4
+            // checkBox2
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(212, 60);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(15, 14);
-            this.checkBox4.TabIndex = 25;
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(176, 60);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(15, 14);
+            this.checkBox2.TabIndex = 23;
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(157, 60);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(15, 14);
+            this.checkBox1.TabIndex = 22;
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // panel4
+            // 
+            this.panel4.Location = new System.Drawing.Point(210, 36);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(16, 16);
+            this.panel4.TabIndex = 21;
+            // 
+            // panel3
+            // 
+            this.panel3.Location = new System.Drawing.Point(192, 36);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(16, 16);
+            this.panel3.TabIndex = 20;
+            // 
+            // panel2
+            // 
+            this.panel2.Location = new System.Drawing.Point(173, 36);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(16, 16);
+            this.panel2.TabIndex = 19;
+            // 
+            // panel1
+            // 
+            this.panel1.Location = new System.Drawing.Point(155, 36);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(16, 16);
+            this.panel1.TabIndex = 18;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(157, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(67, 13);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "1    2    3    4";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(13, 45);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 43);
+            this.button1.TabIndex = 16;
+            this.button1.Text = "Connect";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(233, 434);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(60, 37);
+            this.btnDelete.TabIndex = 17;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // XineNetDesktop
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(702, 475);
+            this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cbLoopItem);
             this.Controls.Add(this.btnDown);
@@ -430,7 +444,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "XineNetDesktop";
-            this.Text = "XineNet Desktop";
+            this.Text = "PiVT Desktop";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.XineNetDesktop_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.dgvVideos)).EndInit();
             this.menuStrip1.ResumeLayout(false);
@@ -480,6 +494,7 @@
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button btnDelete;
     }
 }
 

@@ -21,7 +21,7 @@ namespace XineNet_Desktop
         {
             InitializeComponent();
             conf = new XNDConfig();
-            //set up timer
+            //set up timerl chee
             RemainingTimer = new System.Timers.Timer(1000);
             RemainingTimer.Enabled = false;
             RemainingTimer.AutoReset = true;
@@ -32,7 +32,7 @@ namespace XineNet_Desktop
             updateconnectbox();
 
             playserver.getStatus();
-            cbLoop.Visible = cbContPlay.Checked;
+            cbLoop.Enabled = cbContPlay.Checked;
 
             tally = new SerialTally();
             string[] ports = System.IO.Ports.SerialPort.GetPortNames();
@@ -80,6 +80,12 @@ namespace XineNet_Desktop
                 dgvVideos.Rows[rowid].Cells[2].Value = false;
                 dgvVideos.Rows[rowid].Cells[2].Selected = false;
             }
+
+            if (selected == dgvVideos.Rows.Count)
+            {
+                selected--;
+            }
+
             dgvVideos.Rows[selected].Selected = true;
         }
 
@@ -97,6 +103,7 @@ namespace XineNet_Desktop
         {
             playserver.stopreading();
             playserver.connect(conf.serverhost, conf.serverport);
+            playserver.getStatus();
         }
 
         void updateconnectbox()
@@ -111,7 +118,6 @@ namespace XineNet_Desktop
                 svrStatus.Text = "Not Connected";
                 tsmiConnect.Enabled = true;
             }
-            //now update the playing bit because it might be hidden.
             updateplayingstatus();
         }
 
@@ -122,6 +128,8 @@ namespace XineNet_Desktop
                 #region Big Ugly Methodinvoker named minv
                 MethodInvoker minv = new MethodInvoker(delegate()
                 {
+                    btnPlay.Enabled = true;
+                    btnStop.Enabled = true;
                     lblplaying.Visible = true;
                     playtitle.Visible = true;
                     if (playserver.playing)
@@ -130,7 +138,7 @@ namespace XineNet_Desktop
                         {
                             RemainingTimer.Enabled = true;
                             RemainingTimer.Start();
-                            SecRemaining.Visible = true;
+                            setupSecRemaining();
                         }
                         playtitle.Text = playserver.currentvideo;
 
@@ -140,11 +148,16 @@ namespace XineNet_Desktop
                             if (row.Cells[0].Value.ToString() == playserver.currentvideo)
                             {
                                 playingindex = row.Index;
+
+                                // Update length if available
+                                if (playserver.currentlength != 0)
+                                {
+                                    dgvVideos.Rows[playingindex].Cells[1].Value = playserver.currentlength.ToString();
+                                    playserver.currentlength = 0;
+                                }
                                 break;
                             }
                         }
-                        btnStop.Enabled = true;
-                        btnPlay.Enabled = false;
                     }
                     else
                     {
@@ -188,8 +201,6 @@ namespace XineNet_Desktop
                                 setupSecRemaining();
                             }
                         }
-                        btnStop.Enabled = false;
-                        btnPlay.Enabled = true;
                     }
                 });
                 #endregion
@@ -208,6 +219,9 @@ namespace XineNet_Desktop
             {
                 lblplaying.Visible = false;
                 playtitle.Visible = false;
+                btnPlay.Enabled = false;
+                btnStop.Enabled = false;
+                SecRemaining.Visible = false;
             }
         }
 
@@ -216,7 +230,7 @@ namespace XineNet_Desktop
             if (playingindex > -1)
             {
                 Color textcol = Color.Green;
-                int secrem = int.Parse(dgvVideos.Rows[dgvVideos.SelectedCells[0].RowIndex].Cells[1].Value.ToString());
+                int secrem = playserver.lengthremaining;
                 if (secrem > 5 && secrem <= 10)
                 {
                     textcol = Color.Orange;
@@ -227,12 +241,13 @@ namespace XineNet_Desktop
                 }
                 SecRemaining.Text = secrem.ToString();
                 SecRemaining.ForeColor = textcol;
+                SecRemaining.Visible = true;
             }
         }
 
         private void play() 
         {
-            if (dgvVideos.Rows.Count > 0 && !playserver.playing)
+            if (dgvVideos.Rows.Count > 0)
             {
                 playserver.playvid(dgvVideos.Rows[dgvVideos.SelectedCells[0].RowIndex].Cells[0].Value.ToString());
                 playingindex = dgvVideos.SelectedCells[0].RowIndex;
@@ -275,6 +290,7 @@ namespace XineNet_Desktop
         private void tsmiConnect_Click(object sender, EventArgs e)
         {
             playserver.connect(conf.serverhost,conf.serverport);
+            playserver.getStatus();
         }
 
         private void timerElapsed(object sender, EventArgs e)
@@ -316,8 +332,8 @@ namespace XineNet_Desktop
 
         private void cbContPlay_CheckedChanged(object sender, EventArgs e)
         {
-            cbLoop.Visible = cbContPlay.Checked;
-            cbLoopItem.Visible = !cbContPlay.Checked;
+            cbLoop.Enabled = cbContPlay.Checked;
+            cbLoopItem.Enabled = !cbContPlay.Checked;
         }
 
         private void btnUp_Click(object sender, EventArgs e)
@@ -345,6 +361,16 @@ namespace XineNet_Desktop
             }
         }
 
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (dgvVideos.Rows.Count > 0 && dgvVideos.SelectedRows[0].Index < dgvVideos.Rows.Count)
+            {
+                int selected = dgvVideos.SelectedRows[0].Index;
+                playlist.delete(selected);
+                PlaylistRefresh();
+            }
+        }
+
         private void openPlaylistToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //TODO: ask the user for the playlist
@@ -358,7 +384,7 @@ namespace XineNet_Desktop
 
         private void cbLoopItem_CheckedChanged(object sender, EventArgs e)
         {
-            cbContPlay.Visible = !cbContPlay.Checked;
+            cbContPlay.Enabled = !cbContPlay.Checked;
             
         }
 
@@ -425,5 +451,17 @@ namespace XineNet_Desktop
             }
         }
 
+        private void dgvVideos_SelectionChanged(object sender, EventArgs e)
+        {
+            //Load selected
+            try
+            {
+                playserver.loadvid(dgvVideos.Rows[dgvVideos.SelectedCells[0].RowIndex].Cells[0].Value.ToString());
+            }
+            catch
+            {
+                //Doesn't really matter if this fails
+            }
+        }
     }
 }

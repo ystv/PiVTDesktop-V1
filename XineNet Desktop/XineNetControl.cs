@@ -22,6 +22,8 @@ namespace XineNet_Desktop
         public bool connected = false;
         public bool playing = false;
         public string currentvideo = "";
+        public int currentlength = 0;
+        public int lengthremaining = 0;
 
         Thread readerthread;
         //begin pile of events
@@ -29,12 +31,39 @@ namespace XineNet_Desktop
         public event playerStatusChangedHandler playerStatusChanged;
         //end pile of events
 
+        public void loadvid(string video)
+        {
+            if (connected)
+            {
+                StreamWriter sw = new StreamWriter(constream);
+                sw.WriteLine("l " + video);
+
+                try 
+                {
+                    sw.Flush();
+                }
+                catch
+                {
+                    connected = false;
+                    connectionStatusChanged(this, EventArgs.Empty);
+                }
+            }
+        }
+
         public void playvid(string video) {
             if (connected)
             {
                 StreamWriter sw = new StreamWriter(constream);
                 sw.WriteLine("p " + video);
-                sw.Flush();
+                try
+                {
+                    sw.Flush();
+                }
+                catch
+                {
+                    connected = false;
+                    connectionStatusChanged(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -43,8 +72,17 @@ namespace XineNet_Desktop
             if (connected)
             {
                 StreamWriter sw = new StreamWriter(constream);
-                sw.WriteLine("?");
-                sw.Flush();
+                sw.WriteLine("i");
+
+                try
+                {
+                    sw.Flush();
+                }
+                catch
+                {
+                    connected = false;
+                    connectionStatusChanged(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -54,7 +92,16 @@ namespace XineNet_Desktop
             if (connected)
             {
                 sw.WriteLine("s");
-                sw.Flush();
+
+                try
+                {
+                    sw.Flush();
+                }
+                catch
+                {
+                    connected = false;
+                    connectionStatusChanged(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -123,26 +170,18 @@ namespace XineNet_Desktop
             }
         }
 
-        //handles messages starting with STAT
+        //handles messages starting with 200
         void handlestat(string msg)
         {
             string[] chunks = msg.Split(' ');
-            switch (chunks[1])
+            switch (chunks[1].TrimEnd(','))
             {
                 case "Playing":
                     playing = true;
-                    string vfn = "";
-                    int i = 2;
-                    while (i < chunks.GetLength(0))
-                    {
-                        if (i > 2)
-                        {
-                            vfn += " ";
-                        }
-                        vfn += chunks[i];
-                        i++;
-                    }
-                    currentvideo = vfn.TrimStart('\'').TrimEnd('\'');
+
+                    currentvideo = chunks[2].TrimEnd(',');
+                    chunks = msg.Split(',')[2].Split(' ');
+                    lengthremaining = Convert.ToInt16(chunks[1]);
                     playerStatusChanged(this, EventArgs.Empty);
                     break;
                 case "Stopped":
@@ -153,7 +192,7 @@ namespace XineNet_Desktop
             }
         }
 
-        //something to monitor the socket and read linesz
+        //something to monitor the socket and read lines
         void linereader()
         {
             StreamReader sr = new StreamReader(constream);
@@ -169,22 +208,32 @@ namespace XineNet_Desktop
                 switch (chunks[0])
                 {
                     case "Welcome":
-                        continue;
                         break;
-                    case "STAT:":
+                    case "200":
                         handlestat(line);
-                        continue;
                         break;
-                    case "STOP:":
+                    case "202":
+                        playing = true;
+                        currentvideo = chunks[2];
+                        currentlength = Convert.ToInt16(chunks[3]);
+                        lengthremaining = currentlength;
+                        playerStatusChanged(this, EventArgs.Empty);
+                        break;
+                    case "204":
                         playing = false;
                         playerStatusChanged(this, EventArgs.Empty);
                         break;
-                    case "File":
-                        if (line.Split(':')[0] == "File not found")
-                        {
-                            playing = false;
-                            playerStatusChanged(this, EventArgs.Empty);
-                        }
+                    case "205":
+                        playing = true;
+                        currentvideo = chunks[2];
+                        currentlength = Convert.ToInt16(chunks[3]);
+                        lengthremaining = Convert.ToInt16(chunks[3]);
+                        playerStatusChanged(this, EventArgs.Empty);
+                        break;
+                    case "404":
+                        playing = false;
+                        System.Windows.Forms.MessageBox.Show("Could not find " + chunks[2]);
+                        playerStatusChanged(this, EventArgs.Empty);
                         break;
                     default:
                         System.Windows.Forms.MessageBox.Show(line);
