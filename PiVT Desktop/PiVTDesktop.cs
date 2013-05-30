@@ -7,26 +7,27 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace XineNet_Desktop
+namespace PiVT_Desktop
 {
-    public partial class XineNetDesktop : Form
+    public partial class PiVTDesktop : Form
     {
-        XNDConfig conf;
-        XineNetControl playserver;
+        PiVTControl playserver;
         System.Timers.Timer RemainingTimer;
         int playingindex = -1;
         PlayListLoader playlist;
         SerialTally tally;
-        public XineNetDesktop()
+        public PiVTDesktop()
         {
             InitializeComponent();
-            conf = new XNDConfig();
-            //set up timerl chee
+            groupBox1.Visible = Properties.Settings.Default.EnableTally;
+
+            //set up timerl
             RemainingTimer = new System.Timers.Timer(1000);
             RemainingTimer.Enabled = false;
             RemainingTimer.AutoReset = true;
             RemainingTimer.Elapsed += new System.Timers.ElapsedEventHandler(timerElapsed);
-            playserver = new XineNetControl(conf.serverhost, conf.serverport);
+
+            playserver = new PiVTControl(Properties.Settings.Default.Server, Properties.Settings.Default.Port);
             playserver.connectionStatusChanged += new connectionStatusChangedHandler(updateconnstat);
             playserver.playerStatusChanged += new playerStatusChangedHandler(updateplaystat);
             updateconnectbox();
@@ -102,7 +103,8 @@ namespace XineNet_Desktop
         void updateSettings(object sender, EventArgs e)
         {
             playserver.stopreading();
-            playserver.connect(conf.serverhost, conf.serverport);
+            playserver.connect(Properties.Settings.Default.Server, Properties.Settings.Default.Port);
+            groupBox1.Visible = Properties.Settings.Default.EnableTally;
             playserver.getStatus();
         }
 
@@ -110,7 +112,7 @@ namespace XineNet_Desktop
         {
             if (playserver.connected)
             {
-                svrStatus.Text = "Connected to " + conf.serverhost;
+                svrStatus.Text = "Connected to " + Properties.Settings.Default.Server;
                 tsmiConnect.Enabled = false;
             }
             else
@@ -268,7 +270,7 @@ namespace XineNet_Desktop
             }
         }
 
-        private void XineNetDesktop_FormClosed(object sender, FormClosedEventArgs e)
+        private void PiVTDesktop_FormClosed(object sender, FormClosedEventArgs e)
         {
             if(playserver.connected)
                 playserver.stopreading();//(hopefully) kills socket thread
@@ -282,14 +284,14 @@ namespace XineNet_Desktop
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Settings box = new Settings(conf);
+            Settings box = new Settings();
             box.settingsChanged += new settingsChangedHandler(updateSettings);
             box.Show();
         }
 
         private void tsmiConnect_Click(object sender, EventArgs e)
         {
-            playserver.connect(conf.serverhost,conf.serverport);
+            playserver.connect(Properties.Settings.Default.Server, Properties.Settings.Default.Port);
             playserver.getStatus();
         }
 

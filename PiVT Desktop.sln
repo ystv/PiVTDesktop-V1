@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiVT Desktop", "PiVT Desktop\PiVT Desktop.csproj", "{7D707392-D20A-49A5-A1D3-71D141B0C3D6}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PiVTD Setup", "PiVTD Setup\PiVTD Setup.vdproj", "{CCEEFF33-6FB6-40B5-AC4E-9EFCFFEE4145}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7D707392-D20A-49A5-A1D3-71D141B0C3D6}.Debug|x86.ActiveCfg = Debug|x86
+		{7D707392-D20A-49A5-A1D3-71D141B0C3D6}.Debug|x86.Build.0 = Debug|x86
+		{7D707392-D20A-49A5-A1D3-71D141B0C3D6}.Release|x86.ActiveCfg = Release|x86
+		{7D707392-D20A-49A5-A1D3-71D141B0C3D6}.Release|x86.Build.0 = Release|x86
+		{CCEEFF33-6FB6-40B5-AC4E-9EFCFFEE4145}.Debug|x86.ActiveCfg = Debug
+		{CCEEFF33-6FB6-40B5-AC4E-9EFCFFEE4145}.Debug|x86.Build.0 = Debug
+		{CCEEFF33-6FB6-40B5-AC4E-9EFCFFEE4145}.Release|x86.ActiveCfg = Release
+		{CCEEFF33-6FB6-40B5-AC4E-9EFCFFEE4145}.Release|x86.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

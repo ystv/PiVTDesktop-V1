@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("XineNet Desktop")]
+[assembly: AssemblyTitle("PiVT Desktop")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("XineNet Desktop")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2010")]
+[assembly: AssemblyCompany("York Student Television")]
+[assembly: AssemblyProduct("PiVT")]
+[assembly: AssemblyCopyright("Copyright © York Student Television 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("638e5081-a848-48a3-a569-66952d3ade4a")]
+[assembly: Guid("9031c433-a875-476a-87d2-9e2fdaa16a2d")]
 
 // Version information for an assembly consists of the following four values:
 //

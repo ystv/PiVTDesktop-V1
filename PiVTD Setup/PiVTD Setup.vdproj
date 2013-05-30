@@ -3,7 +3,7 @@
 "VSVersion" = "3:800"
 "ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
 "IsWebType" = "8:FALSE"
-"ProjectName" = "8:XDN Setup"
+"ProjectName" = "8:PiVTD Setup"
 "LanguageId" = "3:1033"
 "CodePage" = "3:1252"
 "UILanguageId" = "3:1033"
@@ -15,26 +15,26 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_8A6427DE828D4F50B52257895ACBABAF"
+        "MsmKey" = "8:_29D8CD701D5441DD9E9F8FCDD155D00F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_C88DDD3564E342A193C86AEFD8E287E4"
+        "MsmKey" = "8:_5D23C1BB39B4406F9DE83EBAC0BE6244"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_F894C61A2F404FB794CE957CF3F076FB"
+        "MsmKey" = "8:_798DC03889C04648A69C5DF2524A9CFE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8A6427DE828D4F50B52257895ACBABAF"
+        "OwnerKey" = "8:_5D23C1BB39B4406F9DE83EBAC0BE6244"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -45,7 +45,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\XDN Setup.msi"
+        "OutputFilename" = "8:Debug\\PiVT Desktop Setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -82,7 +82,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\XDN Setup.msi"
+        "OutputFilename" = "8:Release\\PiVT Desktop Setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -142,9 +142,9 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C88DDD3564E342A193C86AEFD8E287E4"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_29D8CD701D5441DD9E9F8FCDD155D00F"
             {
-            "SourcePath" = "8:..\\XineNet Desktop\\bin\\Debug\\PlaylistTest.xml"
+            "SourcePath" = "8:..\\PiVT Desktop\\bin\\Debug\\PlaylistTest.xml"
             "TargetName" = "8:PlaylistTest.xml"
             "Tag" = "8:"
             "Folder" = "8:_9D50A491F0544041BC178464D0DED6FB"
@@ -162,10 +162,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F894C61A2F404FB794CE957CF3F076FB"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_798DC03889C04648A69C5DF2524A9CFE"
             {
-            "SourcePath" = "8:..\\XineNet Desktop\\bin\\Debug\\XNDConfig.xml"
-            "TargetName" = "8:XNDConfig.xml"
+            "SourcePath" = "8:..\\PiVT Desktop\\PiVT_icon.ico"
+            "TargetName" = "8:PiVT_icon.ico"
             "Tag" = "8:"
             "Folder" = "8:_9D50A491F0544041BC178464D0DED6FB"
             "Condition" = "8:"
@@ -248,10 +248,10 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:XineNet Desktop"
-        "ProductCode" = "8:{FA837758-BA0A-4B04-9ACA-67760BBF8095}"
-        "PackageCode" = "8:{AF854A97-8177-42AA-A64B-FCFCF1C941C7}"
-        "UpgradeCode" = "8:{68629DAE-6390-4D35-9EB0-879EC431350A}"
+        "ProductName" = "8:PiVT Desktop"
+        "ProductCode" = "8:{8653D86B-BF79-48C8-8D6A-884234E14ED8}"
+        "PackageCode" = "8:{33A4C18B-C125-4D75-8524-80BF448E0FCE}"
+        "UpgradeCode" = "8:{4FE31034-1A43-4DA0-929A-154B43230E51}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -261,12 +261,12 @@
         "Manufacturer" = "8:YSTV"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:XDN Setup"
+        "Title" = "8:PiVTD Setup"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Michael Cullen"
+        "ARPCONTACT" = "8:York Student Telelvision"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
-        "ARPURLINFOABOUT" = "8:http://ystv.york.ac.uk"
+        "ARPURLINFOABOUT" = "8:http://ystv.co.uk/PiVT"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
@@ -370,32 +370,32 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_3509F10526154ACEAF0D822610B120AD"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_3705BAF6F48F470EB5CBDD06D96130F2"
             {
-            "Name" = "8:XineNet Desktop"
+            "Name" = "8:PiVT Desktop"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_8A6427DE828D4F50B52257895ACBABAF"
-            "Folder" = "8:_86E034DA6BC94158B14E085D275AB207"
-            "WorkingFolder" = "8:_9D50A491F0544041BC178464D0DED6FB"
-            "Icon" = "8:"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_CA049C6DE2A44264B7D7CA3477BD9588"
-            {
-            "Name" = "8:XineNet Desktop"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_8A6427DE828D4F50B52257895ACBABAF"
+            "Target" = "8:_5D23C1BB39B4406F9DE83EBAC0BE6244"
             "Folder" = "8:_CF9AA3E20D1D46D39807F84F37A96624"
             "WorkingFolder" = "8:_9D50A491F0544041BC178464D0DED6FB"
-            "Icon" = "8:"
+            "Icon" = "8:_798DC03889C04648A69C5DF2524A9CFE"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E293B126131D4DE79379946A96148D21"
+            {
+            "Name" = "8:PiVT Desktop"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_5D23C1BB39B4406F9DE83EBAC0BE6244"
+            "Folder" = "8:_86E034DA6BC94158B14E085D275AB207"
+            "WorkingFolder" = "8:_9D50A491F0544041BC178464D0DED6FB"
+            "Icon" = "8:_798DC03889C04648A69C5DF2524A9CFE"
             "Feature" = "8:"
             }
         }
@@ -797,9 +797,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_8A6427DE828D4F50B52257895ACBABAF"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_5D23C1BB39B4406F9DE83EBAC0BE6244"
             {
-            "SourcePath" = "8:..\\XineNet Desktop\\obj\\x86\\Release\\XineNet Desktop.exe"
+            "SourcePath" = "8:..\\PiVT Desktop\\obj\\x86\\Release\\PiVT Desktop.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9D50A491F0544041BC178464D0DED6FB"
@@ -819,7 +819,7 @@
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{A79DA1F3-F4BB-4427-AEEC-DBBAD58C4F7D}"
+            "OutputProjectGuid" = "8:{7D707392-D20A-49A5-A1D3-71D141B0C3D6}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
