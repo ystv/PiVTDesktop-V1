@@ -1,4 +1,4 @@
-﻿namespace XineNet_Desktop
+﻿namespace PiVT_Desktop
 {
     partial class Settings
     {
@@ -33,6 +33,7 @@
             this.lblport = new System.Windows.Forms.Label();
             this.tbPort = new System.Windows.Forms.TextBox();
             this.btnGoDoStuff = new System.Windows.Forms.Button();
+            this.cbSerialTally = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lblHost
@@ -69,7 +70,7 @@
             // 
             // btnGoDoStuff
             // 
-            this.btnGoDoStuff.Location = new System.Drawing.Point(211, 73);
+            this.btnGoDoStuff.Location = new System.Drawing.Point(236, 120);
             this.btnGoDoStuff.Name = "btnGoDoStuff";
             this.btnGoDoStuff.Size = new System.Drawing.Size(85, 39);
             this.btnGoDoStuff.TabIndex = 4;
@@ -77,11 +78,22 @@
             this.btnGoDoStuff.UseVisualStyleBackColor = true;
             this.btnGoDoStuff.Click += new System.EventHandler(this.btnGoDoStuff_Click);
             // 
+            // cbSerialTally
+            // 
+            this.cbSerialTally.AutoSize = true;
+            this.cbSerialTally.Location = new System.Drawing.Point(42, 93);
+            this.cbSerialTally.Name = "cbSerialTally";
+            this.cbSerialTally.Size = new System.Drawing.Size(113, 17);
+            this.cbSerialTally.TabIndex = 6;
+            this.cbSerialTally.Text = "Enable Serial Tally";
+            this.cbSerialTally.UseVisualStyleBackColor = true;
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(333, 124);
+            this.ClientSize = new System.Drawing.Size(333, 171);
+            this.Controls.Add(this.cbSerialTally);
             this.Controls.Add(this.btnGoDoStuff);
             this.Controls.Add(this.tbPort);
             this.Controls.Add(this.lblport);
@@ -101,5 +113,6 @@
         private System.Windows.Forms.Label lblport;
         private System.Windows.Forms.TextBox tbPort;
         private System.Windows.Forms.Button btnGoDoStuff;
+        private System.Windows.Forms.CheckBox cbSerialTally;
     }
 }

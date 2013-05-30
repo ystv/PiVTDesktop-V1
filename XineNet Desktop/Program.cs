@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace XineNet_Desktop
+namespace PiVT_Desktop
 {
     static class Program
     {
@@ -15,7 +15,7 @@ namespace XineNet_Desktop
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new XineNetDesktop());
+            Application.Run(new PiVTDesktop());
         }
     }
 }

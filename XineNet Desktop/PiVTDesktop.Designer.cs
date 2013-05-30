@@ -1,6 +1,6 @@
-﻿namespace XineNet_Desktop
+﻿namespace PiVT_Desktop
 {
-    partial class XineNetDesktop
+    partial class PiVTDesktop
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PiVTDesktop));
             this.dgvVideos = new System.Windows.Forms.DataGridView();
             this.Video = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Duration = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -210,7 +211,7 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
@@ -326,6 +327,7 @@
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Serial Tally";
+            this.groupBox1.Visible = false;
             // 
             // checkBox4
             // 
@@ -420,7 +422,7 @@
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
-            // XineNetDesktop
+            // PiVTDesktop
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -442,10 +444,11 @@
             this.Controls.Add(this.btnPlay);
             this.Controls.Add(this.dgvVideos);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "XineNetDesktop";
+            this.Name = "PiVTDesktop";
             this.Text = "PiVT Desktop";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.XineNetDesktop_FormClosed);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.PiVTDesktop_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.dgvVideos)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

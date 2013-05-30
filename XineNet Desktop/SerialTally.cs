@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO.Ports;
-namespace XineNet_Desktop
+namespace PiVT_Desktop
 {
 
     public delegate void ConnectStatusChange();

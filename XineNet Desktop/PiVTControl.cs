@@ -7,7 +7,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.IO;
 
-namespace XineNet_Desktop
+namespace PiVT_Desktop
 {
 
     //begin pile of event handlers
@@ -15,7 +15,7 @@ namespace XineNet_Desktop
     public delegate void playerStatusChangedHandler(object sender, EventArgs e);
     //end pile of event handlers
 
-    class XineNetControl
+    class PiVTControl
     {
         TcpClient connection = null;
         NetworkStream constream;
@@ -105,7 +105,7 @@ namespace XineNet_Desktop
             }
         }
 
-        public XineNetControl(string host, int port)
+        public PiVTControl(string host, int port)
         {
             connect(host,port);
            

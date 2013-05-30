@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace XineNet_Desktop
+namespace PiVT_Desktop
 {
     class PlayListLoader
     {
