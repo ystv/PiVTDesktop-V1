@@ -170,12 +170,12 @@ namespace PiVT_Desktop
                         playtitle.Text = "None";
                         if (playingindex > -1)
                         {
-                            int secrem = int.Parse(SecRemaining.Text);
-                            if (secrem > 0 && RemainingTimer.Enabled) //checks if the timer hasn't finished counting down yet
+                            TimeSpan secrem = TimeSpan.ParseExact(SecRemaining.Text, @"mm\:ss", System.Globalization.CultureInfo.CurrentCulture);
+                            if (secrem > TimeSpan.FromSeconds(0) && RemainingTimer.Enabled) //checks if the timer hasn't finished counting down yet
                             {
                                 //correct field in grid
                                 int gridnum = int.Parse(dgvVideos.Rows[playingindex].Cells[1].Value.ToString());
-                                gridnum -= secrem;
+                                gridnum -= (int)secrem.TotalSeconds;
                                 dgvVideos.Rows[playingindex].Cells[1].Value = gridnum.ToString();
                             }
                             dgvVideos.Rows[playingindex].Cells[2].Value = true;
@@ -232,16 +232,16 @@ namespace PiVT_Desktop
             if (playingindex > -1)
             {
                 Color textcol = Color.Green;
-                int secrem = playserver.lengthremaining;
-                if (secrem > 5 && secrem <= 10)
+                TimeSpan secrem = TimeSpan.FromSeconds(playserver.lengthremaining);
+                if (secrem > TimeSpan.FromSeconds(5) && secrem <= TimeSpan.FromSeconds(10))
                 {
                     textcol = Color.Orange;
                 }
-                else if (secrem <= 5)
+                else if (secrem <= TimeSpan.FromSeconds(5))
                 {
                     textcol = Color.Red;
                 }
-                SecRemaining.Text = secrem.ToString();
+                SecRemaining.Text = secrem.ToString(@"mm\:ss");
                 SecRemaining.ForeColor = textcol;
                 SecRemaining.Visible = true;
             }
@@ -297,10 +297,12 @@ namespace PiVT_Desktop
 
         private void timerElapsed(object sender, EventArgs e)
         {
-            int secrem = int.Parse(SecRemaining.Text);
+            string sr = SecRemaining.Text;
+            
+            TimeSpan secrem = TimeSpan.ParseExact(SecRemaining.Text, @"mm\:ss", System.Globalization.CultureInfo.CurrentCulture);
             Color textcol = Color.Green;
-            if (secrem > 0)
-                secrem--;
+            if (secrem.TotalSeconds > 0)
+                secrem = secrem.Subtract(TimeSpan.FromSeconds(1));
             else
             {
                 if (playingindex > -1)
@@ -313,21 +315,21 @@ namespace PiVT_Desktop
                     }));
                 }
             }
-            if (secrem > 5 && secrem <= 10)
+            if (secrem > TimeSpan.FromSeconds(5) && secrem <= TimeSpan.FromSeconds(10))
             {
                 textcol = Color.Orange;
             }
-            else if (secrem <= 5)
+            else if (secrem <= TimeSpan.FromSeconds(5))
             {
                 textcol = Color.Red;
             }
             if (SecRemaining.InvokeRequired)
             {
-                SecRemaining.Invoke(new MethodInvoker(delegate() { SecRemaining.Text = secrem.ToString(); SecRemaining.ForeColor = textcol; }));
+                SecRemaining.Invoke(new MethodInvoker(delegate() { SecRemaining.Text = secrem.ToString(@"mm\:ss"); SecRemaining.ForeColor = textcol; }));
             }
             else
             {
-                SecRemaining.Text = secrem.ToString();
+                SecRemaining.Text = secrem.ToString(@"mm\:ss");
                 SecRemaining.ForeColor = textcol;
             }
         }
