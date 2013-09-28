@@ -1,0 +1,22 @@
+C:\Users\Sam\Documents\YSTV\XineNetDesktop\PiVT Desktop\bin\Debug\PiVT Desktop.exe.config
+C:\Users\Sam\Documents\YSTV\XineNetDesktop\PiVT Desktop\obj\x86\Debug\PiVT Desktop.exe
+C:\Users\Sam\Documents\YSTV\XineNetDesktop\PiVT Desktop\obj\x86\Debug\PiVT Desktop.pdb
+C:\Users\Sam\Documents\YSTV\XineNetDesktop\PiVT Desktop\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Sam\Documents\YSTV\XineNetDesktop\PiVT Desktop\obj\x86\Debug\PiVT_Desktop.Settings.resources
+C:\Users\Sam\Documents\YSTV\XineNetDesktop\PiVT Desktop\obj\x86\Debug\PiVT_Desktop.Properties.Resources.resources
+C:\Users\Sam\Documents\YSTV\XineNetDesktop\PiVT Desktop\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Sam\Documents\YSTV\XineNetDesktop\PiVT Desktop\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Sam\Documents\YSTV\XineNetDesktop\PiVT Desktop\bin\Debug\PiVT Desktop.exe
+C:\Users\Sam\Documents\YSTV\XineNetDesktop\PiVT Desktop\bin\Debug\PiVT Desktop.pdb
+C:\Users\Sam\Documents\YSTV\XineNetDesktop\PiVT Desktop\obj\x86\Debug\PiVT_Desktop.PiVTDesktop.resources
+C:\Users\Sam\Documents\YSTV\PiVTDesktop\PiVT Desktop\bin\Debug\PiVT Desktop.exe.config
+C:\Users\Sam\Documents\YSTV\PiVTDesktop\PiVT Desktop\obj\x86\Debug\PiVT Desktop.exe
+C:\Users\Sam\Documents\YSTV\PiVTDesktop\PiVT Desktop\obj\x86\Debug\PiVT Desktop.pdb
+C:\Users\Sam\Documents\YSTV\PiVTDesktop\PiVT Desktop\bin\Debug\PiVT Desktop.exe
+C:\Users\Sam\Documents\YSTV\PiVTDesktop\PiVT Desktop\bin\Debug\PiVT Desktop.pdb
+C:\Users\Sam\Documents\YSTV\PiVTDesktop\PiVT Desktop\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Sam\Documents\YSTV\PiVTDesktop\PiVT Desktop\obj\x86\Debug\PiVT_Desktop.Settings.resources
+C:\Users\Sam\Documents\YSTV\PiVTDesktop\PiVT Desktop\obj\x86\Debug\PiVT_Desktop.PiVTDesktop.resources
+C:\Users\Sam\Documents\YSTV\PiVTDesktop\PiVT Desktop\obj\x86\Debug\PiVT_Desktop.Properties.Resources.resources
+C:\Users\Sam\Documents\YSTV\PiVTDesktop\PiVT Desktop\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Sam\Documents\YSTV\PiVTDesktop\PiVT Desktop\obj\x86\Debug\GenerateResource.write.1.tlog
