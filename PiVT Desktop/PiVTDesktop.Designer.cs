@@ -244,10 +244,10 @@
             // SecRemaining
             // 
             this.SecRemaining.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.SecRemaining.Font = new System.Drawing.Font("Microsoft Sans Serif", 99.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SecRemaining.Font = new System.Drawing.Font("Microsoft Sans Serif", 95F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SecRemaining.Location = new System.Drawing.Point(323, 199);
             this.SecRemaining.Name = "SecRemaining";
-            this.SecRemaining.Size = new System.Drawing.Size(367, 133);
+            this.SecRemaining.Size = new System.Drawing.Size(379, 133);
             this.SecRemaining.TabIndex = 10;
             this.SecRemaining.Text = "12";
             this.SecRemaining.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
