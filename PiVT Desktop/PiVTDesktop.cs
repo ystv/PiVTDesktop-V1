@@ -67,6 +67,8 @@ namespace PiVT_Desktop
                 dgvVideos.Rows[rowid].Cells[1].Value = pli.getLength().ToString();
                 dgvVideos.Rows[rowid].Cells[2].Value = false;
             }
+
+            updateplayingstatus();
         }
 
         void PlaylistRefresh() //reloads data grid, not from file.Use after reordering.
@@ -123,6 +125,27 @@ namespace PiVT_Desktop
             updateplayingstatus();
         }
 
+        int getnextitem()
+        {
+            // Get next item id to play
+            if (cbLoopItem.Checked && !cbContPlay.Checked)
+            {
+                return playingindex;
+            }
+            else if (dgvVideos.RowCount > (playingindex + 1))
+            {
+                return playingindex + 1;
+            }
+            else if (cbLoop.Checked)
+            {
+                return 0;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
         void updateplayingstatus()
         {
             if (playserver.connected)
@@ -144,20 +167,37 @@ namespace PiVT_Desktop
                         }
                         playtitle.Text = playserver.currentvideo;
 
-                        //see if the playing video matches one on out list:
+                        //see if the playing video matches one on our list:
                         foreach (DataGridViewRow row in dgvVideos.Rows)
                         {
                             if (row.Cells[0].Value.ToString() == playserver.currentvideo)
                             {
                                 playingindex = row.Index;
 
+                                dgvVideos.Rows[dgvVideos.SelectedCells[0].RowIndex].Selected = false;
+                                dgvVideos.Rows[playingindex].Selected = true;
+
                                 // Update length if available
-                                if (playserver.currentlength != 0)
+                                if (playserver.currentlength != 0 && dgvVideos.Rows[playingindex].Cells[1].Value != playserver.currentlength.ToString())
                                 {
                                     dgvVideos.Rows[playingindex].Cells[1].Value = playserver.currentlength.ToString();
+
+                                    playlist.playlist.ElementAt(playingindex).updateLength(playserver.currentlength);
+
                                     playserver.currentlength = 0;
                                 }
                                 break;
+                            }
+                        }
+
+                        //Should we load the next item on the list?
+                        if ("205" == playserver.responsecode && (cbContPlay.Checked || cbLoopItem.Checked))
+                        {
+                            int nextitem = getnextitem();
+                            if (nextitem != -1)
+                            {
+                                cbContPlay.Text = "Auto-play next item";
+                                playserver.loadvid(dgvVideos.Rows[nextitem].Cells[0].Value.ToString());
                             }
                         }
                     }
@@ -179,15 +219,12 @@ namespace PiVT_Desktop
                                 dgvVideos.Rows[playingindex].Cells[1].Value = gridnum.ToString();
                             }
                             dgvVideos.Rows[playingindex].Cells[2].Value = true;
-                            int nextselected = 0;
-                            if (cbLoopItem.Checked && !cbContPlay.Checked)
+                            int nextselected = getnextitem();
+                            if (nextselected == -1)
                             {
-                                nextselected = playingindex;
+                                nextselected = 0;
                             }
-                            else if (dgvVideos.RowCount > (playingindex + 1))
-                            {
-                                nextselected = playingindex + 1;
-                            }
+
                             dgvVideos.Rows[dgvVideos.SelectedCells[0].RowIndex].Selected = false;
                             dgvVideos.Rows[nextselected].Selected = true;
                             playingindex = -1;
@@ -260,6 +297,18 @@ namespace PiVT_Desktop
         private void btnPlay_Click(object sender, EventArgs e)
         {
             play();
+            cbContPlay.Text = "Auto-play next item";
+
+            //Should we load the next item on the list?
+            if (cbContPlay.Checked || cbLoopItem.Checked)
+            {
+                int nextitem = getnextitem();
+                if (nextitem != -1)
+                {
+                    System.Threading.Thread.Sleep(200);
+                    playserver.loadvid(dgvVideos.Rows[nextitem].Cells[0].Value.ToString());
+                }
+            }
         }
 
         private void btnResetPlay_Click(object sender, EventArgs e)
@@ -279,6 +328,8 @@ namespace PiVT_Desktop
         private void btnStop_Click(object sender, EventArgs e)
         {
             playingindex = -1; //so it doesn't get marked as completed
+            playserver.unloadvid();
+            System.Threading.Thread.Sleep(200);
             playserver.stopvid();
         }
 
@@ -338,6 +389,23 @@ namespace PiVT_Desktop
         {
             cbLoop.Enabled = cbContPlay.Checked;
             cbLoopItem.Enabled = !cbContPlay.Checked;
+
+            // Load the background video if this is turned off
+            if (cbContPlay.Checked && playserver.playing)
+            {
+                int nextvideo = getnextitem();
+
+                if (nextvideo != -1)
+                {
+                    System.Threading.Thread.Sleep(200);
+                    playserver.loadvid(dgvVideos.Rows[nextvideo].Cells[0].Value.ToString());
+                }
+            }
+            // Or unload if disabled
+            else
+            {
+                playserver.unloadvid();
+            }
         }
 
         private void btnUp_Click(object sender, EventArgs e)
@@ -389,7 +457,17 @@ namespace PiVT_Desktop
         private void cbLoopItem_CheckedChanged(object sender, EventArgs e)
         {
             cbContPlay.Enabled = !cbContPlay.Checked;
-            
+
+            if (cbLoopItem.Checked)
+            {
+                // Load the video file in the background as well
+                playserver.loadvid(dgvVideos.Rows[dgvVideos.SelectedCells[0].RowIndex].Cells[0].Value.ToString());
+            }
+            else
+            {
+                // Unload background video file
+                playserver.unloadvid();
+            }
         }
 
         private void updateTally()
@@ -457,9 +535,17 @@ namespace PiVT_Desktop
 
         private void dgvVideos_SelectionChanged(object sender, EventArgs e)
         {
-            //Load selected
+            //Check something was actually selected
+            if (dgvVideos.SelectedCells.Count <= 0)
+                return;
+            if (dgvVideos.SelectedCells[0].RowIndex == playingindex)
+                return;
+
+            //Load selected if play next is ticked
+            if (true == cbContPlay.Checked && true == playserver.playing)
             try
             {
+                cbContPlay.Text = "Auto-play selected item";
                 playserver.loadvid(dgvVideos.Rows[dgvVideos.SelectedCells[0].RowIndex].Cells[0].Value.ToString());
             }
             catch

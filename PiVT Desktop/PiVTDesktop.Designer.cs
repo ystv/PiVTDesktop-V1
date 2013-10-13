@@ -237,7 +237,7 @@
             this.cbContPlay.Name = "cbContPlay";
             this.cbContPlay.Size = new System.Drawing.Size(115, 17);
             this.cbContPlay.TabIndex = 9;
-            this.cbContPlay.Text = "Play Whole Playlist";
+            this.cbContPlay.Text = "Auto-play next item";
             this.cbContPlay.UseVisualStyleBackColor = true;
             this.cbContPlay.CheckedChanged += new System.EventHandler(this.cbContPlay_CheckedChanged);
             // 

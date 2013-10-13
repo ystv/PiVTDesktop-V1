@@ -24,6 +24,7 @@ namespace PiVT_Desktop
         public string currentvideo = "";
         public int currentlength = 0;
         public int lengthremaining = 0;
+        public string responsecode = "";
 
         Thread readerthread;
         //begin pile of events
@@ -39,6 +40,25 @@ namespace PiVT_Desktop
                 sw.WriteLine("l " + video);
 
                 try 
+                {
+                    sw.Flush();
+                }
+                catch
+                {
+                    connected = false;
+                    connectionStatusChanged(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        public void unloadvid()
+        {
+            if (connected)
+            {
+                StreamWriter sw = new StreamWriter(constream);
+                sw.WriteLine("u");
+
+                try
                 {
                     sw.Flush();
                 }
@@ -200,11 +220,15 @@ namespace PiVT_Desktop
                 string line = sr.ReadLine();
                 string[] chunks;
                 if (line != null)
+                {
+                    line = line.TrimStart('\0');
                     chunks = line.Split(' ');
+                }
                 else
                 {
                     return;
                 }
+                responsecode = chunks[0];
                 switch (chunks[0])
                 {
                     case "Welcome":
