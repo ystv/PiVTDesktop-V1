@@ -13,9 +13,10 @@ namespace PiVT_Desktop
     //begin pile of event handlers
     public delegate void connectionStatusChangedHandler(object sender, EventArgs e);
     public delegate void playerStatusChangedHandler(object sender, EventArgs e);
+    public delegate void fileUpdateHandler(object sender, EventArgs e, string filename, int length, bool done);
     //end pile of event handlers
 
-    class PiVTControl
+    public class PiVTControl
     {
         TcpClient connection = null;
         NetworkStream constream;
@@ -24,11 +25,13 @@ namespace PiVT_Desktop
         public string currentvideo = "";
         public int currentlength = 0;
         public int lengthremaining = 0;
+        public string responsecode = "";
 
         Thread readerthread;
         //begin pile of events
         public event connectionStatusChangedHandler connectionStatusChanged;
         public event playerStatusChangedHandler playerStatusChanged;
+        public event fileUpdateHandler fileUpdate;
         //end pile of events
 
         public void loadvid(string video)
@@ -39,6 +42,25 @@ namespace PiVT_Desktop
                 sw.WriteLine("l " + video);
 
                 try 
+                {
+                    sw.Flush();
+                }
+                catch
+                {
+                    connected = false;
+                    connectionStatusChanged(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        public void unloadvid()
+        {
+            if (connected)
+            {
+                StreamWriter sw = new StreamWriter(constream);
+                sw.WriteLine("u");
+
+                try
                 {
                     sw.Flush();
                 }
@@ -105,6 +127,25 @@ namespace PiVT_Desktop
             }
         }
 
+        public void listfiles()
+        {
+            StreamWriter sw = new StreamWriter(constream);
+            if (connected)
+            {
+                sw.WriteLine("g");
+
+                try
+                {
+                    sw.Flush();
+                }
+                catch
+                {
+                    connected = false;
+                    connectionStatusChanged(this, EventArgs.Empty);
+                }
+            }
+        }
+
         public PiVTControl(string host, int port)
         {
             connect(host,port);
@@ -123,7 +164,7 @@ namespace PiVT_Desktop
                         connection = tmp;
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     //System.Windows.Forms.MessageBox.Show("Grr... Exception trying to connect to xine-net. " + ex.ToString());
                     //ok, it failed. Meh.
@@ -200,11 +241,15 @@ namespace PiVT_Desktop
                 string line = sr.ReadLine();
                 string[] chunks;
                 if (line != null)
+                {
+                    line = line.TrimStart('\0');
                     chunks = line.Split(' ');
+                }
                 else
                 {
                     return;
                 }
+                responsecode = chunks[0];
                 switch (chunks[0])
                 {
                     case "Welcome":
@@ -217,23 +262,54 @@ namespace PiVT_Desktop
                         currentvideo = chunks[2];
                         currentlength = Convert.ToInt16(chunks[3]);
                         lengthremaining = currentlength;
-                        playerStatusChanged(this, EventArgs.Empty);
+                        if (playerStatusChanged != null)
+                        {
+                            playerStatusChanged(this, EventArgs.Empty);
+                        }
                         break;
                     case "204":
                         playing = false;
-                        playerStatusChanged(this, EventArgs.Empty);
+                        if (playerStatusChanged != null)
+                        {
+                            playerStatusChanged(this, EventArgs.Empty);
+                        }
                         break;
                     case "205":
-                        playing = true;
-                        currentvideo = chunks[2];
-                        currentlength = Convert.ToInt16(chunks[3]);
-                        lengthremaining = Convert.ToInt16(chunks[3]);
-                        playerStatusChanged(this, EventArgs.Empty);
+                        if ("205 File listing complete" == line)
+                        {
+                            if (fileUpdate != null)
+                            {
+                                fileUpdate(this, EventArgs.Empty, "", 0, true);
+                            }
+                        }
+                        else
+                        {
+                            playing = true;
+                            currentvideo = chunks[2];
+                            currentlength = Convert.ToInt16(chunks[3]);
+                            lengthremaining = Convert.ToInt16(chunks[3]);
+                            if (playerStatusChanged != null)
+                            {
+                                playerStatusChanged(this, EventArgs.Empty);
+                            }
+                        }
+                        break;
+                    case "206":
+                        string file = chunks[1];
+                        int length = Convert.ToInt16(chunks[2]);
+
+                        if (fileUpdate != null)
+                        {
+                            fileUpdate(this, EventArgs.Empty, file, length, false);
+                        }
                         break;
                     case "404":
                         playing = false;
                         System.Windows.Forms.MessageBox.Show("Could not find " + chunks[2]);
-                        playerStatusChanged(this, EventArgs.Empty);
+                        if (playerStatusChanged != null)
+                        {
+                            playerStatusChanged(this, EventArgs.Empty);
+                        }
                         break;
                     default:
                         System.Windows.Forms.MessageBox.Show(line);

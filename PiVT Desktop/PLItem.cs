@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PiVT_Desktop
 {
-    class PLItem
+    public class PLItem
     {
         string filename;
         int length;
