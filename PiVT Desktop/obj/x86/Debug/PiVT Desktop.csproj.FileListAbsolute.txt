@@ -31,3 +31,4 @@ C:\Users\Sam\Documents\GitHub\PiVTDesktop\PiVT Desktop\obj\x86\Debug\PiVT_Deskto
 C:\Users\Sam\Documents\GitHub\PiVTDesktop\PiVT Desktop\obj\x86\Debug\PiVT_Desktop.Properties.Resources.resources
 C:\Users\Sam\Documents\GitHub\PiVTDesktop\PiVT Desktop\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Users\Sam\Documents\GitHub\PiVTDesktop\PiVT Desktop\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Sam\Documents\GitHub\PiVTDesktop\PiVT Desktop\obj\x86\Debug\PiVT_Desktop.AddItem.resources

@@ -14,7 +14,7 @@ namespace PiVT_Desktop
         PiVTControl playserver;
         System.Timers.Timer RemainingTimer;
         int playingindex = -1;
-        PlayListLoader playlist;
+        public PlayListLoader playlist;
         SerialTally tally;
         public PiVTDesktop()
         {
@@ -53,6 +53,7 @@ namespace PiVT_Desktop
         ~PiVTDesktop()
         {
             confirmSavePlaylist();
+            playserver.stopreading();
         }
 
         void tally_statusevt()
@@ -81,7 +82,13 @@ namespace PiVT_Desktop
 
         void PlaylistRefresh() //reloads data grid, not from file.Use after reordering.
         {
-            int selected = dgvVideos.SelectedCells[0].RowIndex;
+            int selected = -1;
+
+            if (dgvVideos.SelectedCells.Count != 0) 
+            {
+                selected = dgvVideos.SelectedCells[0].RowIndex;
+            }
+
             dgvVideos.Rows.Clear();
             foreach (PLItem pli in playlist.playlist)
             {
@@ -92,12 +99,19 @@ namespace PiVT_Desktop
                 dgvVideos.Rows[rowid].Cells[2].Selected = false;
             }
 
-            if (selected == dgvVideos.Rows.Count)
+            if (selected > -1)
             {
-                selected--;
-            }
+                if (selected == dgvVideos.Rows.Count)
+                {
+                    selected--;
+                }
 
-            dgvVideos.Rows[selected].Selected = true;
+                dgvVideos.Rows[selected].Selected = true;
+            }
+            else if (dgvVideos.Rows.Count > 0)
+            {
+                dgvVideos.Rows[0].Selected = true;
+            }
         }
 
         void updateconnstat(object sender, EventArgs e)
@@ -124,11 +138,13 @@ namespace PiVT_Desktop
             {
                 svrStatus.Text = "Connected to " + Properties.Settings.Default.Server;
                 tsmiConnect.Enabled = false;
+                btnAdd.Enabled = true;
             }
             else
             {
                 svrStatus.Text = "Not Connected";
                 tsmiConnect.Enabled = true;
+                btnAdd.Enabled = false;
             }
             updateplayingstatus();
         }
@@ -186,7 +202,7 @@ namespace PiVT_Desktop
                                 dgvVideos.Rows[playingindex].Selected = true;
 
                                 // Update length if available
-                                if (playserver.currentlength != 0 && dgvVideos.Rows[playingindex].Cells[1].Value != playserver.currentlength.ToString())
+                                if (playserver.currentlength != 0 && ((string)dgvVideos.Rows[playingindex].Cells[1].Value) != playserver.currentlength.ToString())
                                 {
                                     dgvVideos.Rows[playingindex].Cells[1].Value = playserver.currentlength.ToString();
 
@@ -604,6 +620,18 @@ namespace PiVT_Desktop
             else if (dialogResult == DialogResult.No)
             {
             }
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            AddItem box = new AddItem(ref playlist, ref playserver);
+            box.playlistChanged += new playlistChangedHandler(playlistUpdate);
+            box.Show();
+        }
+
+        void playlistUpdate(object sender, EventArgs e)
+        {
+            PlaylistRefresh();
         }
     }
 }

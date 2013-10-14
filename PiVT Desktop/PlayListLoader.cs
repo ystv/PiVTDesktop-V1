@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace PiVT_Desktop
 {
-    class PlayListLoader
+    public class PlayListLoader
     {
         public string plname;
         int needle; //used by  find
@@ -64,7 +64,7 @@ namespace PiVT_Desktop
                 }
                 plreader.Close();
             }
-            catch (System.IO.FileNotFoundException ex)
+            catch (System.IO.FileNotFoundException)
             {
                 //no file. OOps.
                 System.Windows.Forms.MessageBox.Show("Playlist file " + plname + ".xml not found.");
@@ -116,7 +116,7 @@ namespace PiVT_Desktop
                 configwriter.WriteEndElement();
                 configwriter.Close();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 System.Windows.Forms.MessageBox.Show("Sorry. Couldn't save the playlist file, is it read only?");
             }
