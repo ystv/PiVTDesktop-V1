@@ -66,6 +66,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.savePlaylistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.namePlaylistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.newPlaylistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVideos)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -195,7 +202,13 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newPlaylistToolStripMenuItem,
+            this.toolStripSeparator3,
             this.openPlaylistToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.savePlaylistToolStripMenuItem,
+            this.namePlaylistToolStripMenuItem,
+            this.toolStripSeparator2,
             this.settingsToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -204,15 +217,15 @@
             // openPlaylistToolStripMenuItem
             // 
             this.openPlaylistToolStripMenuItem.Name = "openPlaylistToolStripMenuItem";
-            this.openPlaylistToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.openPlaylistToolStripMenuItem.Text = "Open Playlist";
+            this.openPlaylistToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.openPlaylistToolStripMenuItem.Text = "Open Playlist...";
             this.openPlaylistToolStripMenuItem.Click += new System.EventHandler(this.openPlaylistToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.settingsToolStripMenuItem.Text = "Settings...";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // connectionToolStripMenuItem
@@ -286,7 +299,9 @@
             // openFileDialog1
             // 
             this.openFileDialog1.DefaultExt = "xml";
+            this.openFileDialog1.Filter = "XML Playlist (*.xml*)|*.xml*";
             this.openFileDialog1.InitialDirectory = ".";
+            this.openFileDialog1.Title = "Open Playlist File";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
             // cbLoopItem
@@ -422,6 +437,51 @@
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
+            // savePlaylistToolStripMenuItem
+            // 
+            this.savePlaylistToolStripMenuItem.Enabled = false;
+            this.savePlaylistToolStripMenuItem.Name = "savePlaylistToolStripMenuItem";
+            this.savePlaylistToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.savePlaylistToolStripMenuItem.Text = "Save Playlist";
+            this.savePlaylistToolStripMenuItem.Click += new System.EventHandler(this.savePlaylistToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(160, 6);
+            // 
+            // namePlaylistToolStripMenuItem
+            // 
+            this.namePlaylistToolStripMenuItem.Name = "namePlaylistToolStripMenuItem";
+            this.namePlaylistToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.namePlaylistToolStripMenuItem.Text = "Save Playlist As...";
+            this.namePlaylistToolStripMenuItem.Click += new System.EventHandler(this.namePlaylistToolStripMenuItem_Click);
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.DefaultExt = "xml";
+            this.saveFileDialog1.Filter = "XML Playlist (*.xml*)|*.xml*";
+            this.saveFileDialog1.InitialDirectory = ".";
+            this.saveFileDialog1.Title = "Save Playlist File";
+            this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
+            // 
+            // newPlaylistToolStripMenuItem
+            // 
+            this.newPlaylistToolStripMenuItem.Name = "newPlaylistToolStripMenuItem";
+            this.newPlaylistToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.newPlaylistToolStripMenuItem.Text = "New Playlist";
+            this.newPlaylistToolStripMenuItem.Click += new System.EventHandler(this.newPlaylistToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(160, 6);
+            // 
             // PiVTDesktop
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -498,6 +558,13 @@
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem savePlaylistToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem namePlaylistToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.ToolStripMenuItem newPlaylistToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }
 

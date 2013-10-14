@@ -8,10 +8,18 @@ namespace PiVT_Desktop
 {
     class PlayListLoader
     {
-        string plname;
+        public string plname;
         int needle; //used by  find
         XmlTextReader plreader;
         public List<PLItem> playlist;
+
+        // Start an un-named playlist to save later
+        public PlayListLoader()
+        {
+            this.plname = "";
+            playlist = new List<PLItem>();
+        }
+
         public PlayListLoader(string plname)
         {
             this.plname = plname;
@@ -63,13 +71,26 @@ namespace PiVT_Desktop
                 return;
             }
         }
-        void addItem(PLItem item)
+
+        public void addItem(PLItem item)
         {
             item.position = playlist.Count;
             playlist.Add(item);
         }
+
         ~PlayListLoader()
         {
+            //savePlaylist();
+        }
+
+        public void savePlaylist()
+        {
+            if (plname == "")
+            {
+                System.Windows.Forms.MessageBox.Show("Playlist file not set! Not saving.");
+                return;
+            }
+
             //write back to xml file in case of changes
             XmlTextWriter configwriter;
             try

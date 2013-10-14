@@ -27,6 +27,8 @@ namespace PiVT_Desktop
             RemainingTimer.AutoReset = true;
             RemainingTimer.Elapsed += new System.Timers.ElapsedEventHandler(timerElapsed);
 
+            playlist = new PlayListLoader();
+
             playserver = new PiVTControl(Properties.Settings.Default.Server, Properties.Settings.Default.Port);
             playserver.connectionStatusChanged += new connectionStatusChangedHandler(updateconnstat);
             playserver.playerStatusChanged += new playerStatusChangedHandler(updateplaystat);
@@ -46,6 +48,11 @@ namespace PiVT_Desktop
             else
                 button1.Enabled = false;
             tally.statusevt += new StatusChanged(tally_statusevt);
+        }
+
+        ~PiVTDesktop()
+        {
+            confirmSavePlaylist();
         }
 
         void tally_statusevt()
@@ -69,6 +76,7 @@ namespace PiVT_Desktop
             }
 
             updateplayingstatus();
+            savePlaylistToolStripMenuItem.Enabled = true;
         }
 
         void PlaylistRefresh() //reloads data grid, not from file.Use after reordering.
@@ -321,6 +329,8 @@ namespace PiVT_Desktop
 
         private void PiVTDesktop_FormClosed(object sender, FormClosedEventArgs e)
         {
+            confirmSavePlaylist();
+
             if(playserver.connected)
                 playserver.stopreading();//(hopefully) kills socket thread
         }
@@ -443,17 +453,6 @@ namespace PiVT_Desktop
             }
         }
 
-        private void openPlaylistToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //TODO: ask the user for the playlist
-            openFileDialog1.ShowDialog();
-        }
-
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-            PlaylistChange(openFileDialog1.FileName);
-        }
-
         private void cbLoopItem_CheckedChanged(object sender, EventArgs e)
         {
             cbContPlay.Enabled = !cbContPlay.Checked;
@@ -551,6 +550,59 @@ namespace PiVT_Desktop
             catch
             {
                 //Doesn't really matter if this fails
+            }
+        }
+
+        private void openPlaylistToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            PlaylistChange(openFileDialog1.FileName);
+        }
+
+        private void savePlaylistToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            playlist.savePlaylist();
+        }
+
+        private void namePlaylistToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.ShowDialog();
+        }
+
+        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            playlist.plname = saveFileDialog1.FileName;
+            playlist.savePlaylist();
+            savePlaylistToolStripMenuItem.Enabled = true;
+        }
+
+        private void newPlaylistToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            confirmSavePlaylist();
+            playlist = new PlayListLoader();
+        }
+
+        void confirmSavePlaylist()
+        {
+            DialogResult dialogResult = MessageBox.Show("Save the current playlist?", "Save?", MessageBoxButtons.YesNo);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                if (playlist.plname != "")
+                {
+                    playlist.savePlaylist();
+                }
+                else
+                {
+                    saveFileDialog1.ShowDialog();
+                }
+            }
+            else if (dialogResult == DialogResult.No)
+            {
             }
         }
     }
