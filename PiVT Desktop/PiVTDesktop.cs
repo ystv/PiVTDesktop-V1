@@ -14,7 +14,7 @@ namespace PiVT_Desktop
         PiVTControl playserver;
         System.Timers.Timer RemainingTimer;
         int playingindex = -1;
-        PlayListLoader playlist;
+        public PlayListLoader playlist;
         SerialTally tally;
         public PiVTDesktop()
         {
@@ -26,6 +26,8 @@ namespace PiVT_Desktop
             RemainingTimer.Enabled = false;
             RemainingTimer.AutoReset = true;
             RemainingTimer.Elapsed += new System.Timers.ElapsedEventHandler(timerElapsed);
+
+            playlist = new PlayListLoader();
 
             playserver = new PiVTControl(Properties.Settings.Default.Server, Properties.Settings.Default.Port);
             playserver.connectionStatusChanged += new connectionStatusChangedHandler(updateconnstat);
@@ -48,6 +50,12 @@ namespace PiVT_Desktop
             tally.statusevt += new StatusChanged(tally_statusevt);
         }
 
+        ~PiVTDesktop()
+        {
+            confirmSavePlaylist();
+            playserver.stopreading();
+        }
+
         void tally_statusevt()
         {
             this.Invoke((MethodInvoker)delegate
@@ -67,11 +75,20 @@ namespace PiVT_Desktop
                 dgvVideos.Rows[rowid].Cells[1].Value = pli.getLength().ToString();
                 dgvVideos.Rows[rowid].Cells[2].Value = false;
             }
+
+            updateplayingstatus();
+            savePlaylistToolStripMenuItem.Enabled = true;
         }
 
         void PlaylistRefresh() //reloads data grid, not from file.Use after reordering.
         {
-            int selected = dgvVideos.SelectedCells[0].RowIndex;
+            int selected = -1;
+
+            if (dgvVideos.SelectedCells.Count != 0) 
+            {
+                selected = dgvVideos.SelectedCells[0].RowIndex;
+            }
+
             dgvVideos.Rows.Clear();
             foreach (PLItem pli in playlist.playlist)
             {
@@ -82,12 +99,19 @@ namespace PiVT_Desktop
                 dgvVideos.Rows[rowid].Cells[2].Selected = false;
             }
 
-            if (selected == dgvVideos.Rows.Count)
+            if (selected > -1)
             {
-                selected--;
-            }
+                if (selected == dgvVideos.Rows.Count)
+                {
+                    selected--;
+                }
 
-            dgvVideos.Rows[selected].Selected = true;
+                dgvVideos.Rows[selected].Selected = true;
+            }
+            else if (dgvVideos.Rows.Count > 0)
+            {
+                dgvVideos.Rows[0].Selected = true;
+            }
         }
 
         void updateconnstat(object sender, EventArgs e)
@@ -114,13 +138,36 @@ namespace PiVT_Desktop
             {
                 svrStatus.Text = "Connected to " + Properties.Settings.Default.Server;
                 tsmiConnect.Enabled = false;
+                btnAdd.Enabled = true;
             }
             else
             {
                 svrStatus.Text = "Not Connected";
                 tsmiConnect.Enabled = true;
+                btnAdd.Enabled = false;
             }
             updateplayingstatus();
+        }
+
+        int getnextitem()
+        {
+            // Get next item id to play
+            if (cbLoopItem.Checked && !cbContPlay.Checked)
+            {
+                return playingindex;
+            }
+            else if (dgvVideos.RowCount > (playingindex + 1))
+            {
+                return playingindex + 1;
+            }
+            else if (cbLoop.Checked)
+            {
+                return 0;
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         void updateplayingstatus()
@@ -144,20 +191,37 @@ namespace PiVT_Desktop
                         }
                         playtitle.Text = playserver.currentvideo;
 
-                        //see if the playing video matches one on out list:
+                        //see if the playing video matches one on our list:
                         foreach (DataGridViewRow row in dgvVideos.Rows)
                         {
                             if (row.Cells[0].Value.ToString() == playserver.currentvideo)
                             {
                                 playingindex = row.Index;
 
+                                dgvVideos.Rows[dgvVideos.SelectedCells[0].RowIndex].Selected = false;
+                                dgvVideos.Rows[playingindex].Selected = true;
+
                                 // Update length if available
-                                if (playserver.currentlength != 0)
+                                if (playserver.currentlength != 0 && ((string)dgvVideos.Rows[playingindex].Cells[1].Value) != playserver.currentlength.ToString())
                                 {
                                     dgvVideos.Rows[playingindex].Cells[1].Value = playserver.currentlength.ToString();
+
+                                    playlist.playlist.ElementAt(playingindex).updateLength(playserver.currentlength);
+
                                     playserver.currentlength = 0;
                                 }
                                 break;
+                            }
+                        }
+
+                        //Should we load the next item on the list?
+                        if ("205" == playserver.responsecode && (cbContPlay.Checked || cbLoopItem.Checked))
+                        {
+                            int nextitem = getnextitem();
+                            if (nextitem != -1)
+                            {
+                                cbContPlay.Text = "Auto-play next item";
+                                playserver.loadvid(dgvVideos.Rows[nextitem].Cells[0].Value.ToString());
                             }
                         }
                     }
@@ -179,15 +243,12 @@ namespace PiVT_Desktop
                                 dgvVideos.Rows[playingindex].Cells[1].Value = gridnum.ToString();
                             }
                             dgvVideos.Rows[playingindex].Cells[2].Value = true;
-                            int nextselected = 0;
-                            if (cbLoopItem.Checked && !cbContPlay.Checked)
+                            int nextselected = getnextitem();
+                            if (nextselected == -1)
                             {
-                                nextselected = playingindex;
+                                nextselected = 0;
                             }
-                            else if (dgvVideos.RowCount > (playingindex + 1))
-                            {
-                                nextselected = playingindex + 1;
-                            }
+
                             dgvVideos.Rows[dgvVideos.SelectedCells[0].RowIndex].Selected = false;
                             dgvVideos.Rows[nextselected].Selected = true;
                             playingindex = -1;
@@ -260,6 +321,18 @@ namespace PiVT_Desktop
         private void btnPlay_Click(object sender, EventArgs e)
         {
             play();
+            cbContPlay.Text = "Auto-play next item";
+
+            //Should we load the next item on the list?
+            if (cbContPlay.Checked || cbLoopItem.Checked)
+            {
+                int nextitem = getnextitem();
+                if (nextitem != -1)
+                {
+                    System.Threading.Thread.Sleep(200);
+                    playserver.loadvid(dgvVideos.Rows[nextitem].Cells[0].Value.ToString());
+                }
+            }
         }
 
         private void btnResetPlay_Click(object sender, EventArgs e)
@@ -272,6 +345,8 @@ namespace PiVT_Desktop
 
         private void PiVTDesktop_FormClosed(object sender, FormClosedEventArgs e)
         {
+            confirmSavePlaylist();
+
             if(playserver.connected)
                 playserver.stopreading();//(hopefully) kills socket thread
         }
@@ -279,6 +354,8 @@ namespace PiVT_Desktop
         private void btnStop_Click(object sender, EventArgs e)
         {
             playingindex = -1; //so it doesn't get marked as completed
+            playserver.unloadvid();
+            System.Threading.Thread.Sleep(200);
             playserver.stopvid();
         }
 
@@ -338,6 +415,23 @@ namespace PiVT_Desktop
         {
             cbLoop.Enabled = cbContPlay.Checked;
             cbLoopItem.Enabled = !cbContPlay.Checked;
+
+            // Load the background video if this is turned off
+            if (cbContPlay.Checked && playserver.playing)
+            {
+                int nextvideo = getnextitem();
+
+                if (nextvideo != -1)
+                {
+                    System.Threading.Thread.Sleep(200);
+                    playserver.loadvid(dgvVideos.Rows[nextvideo].Cells[0].Value.ToString());
+                }
+            }
+            // Or unload if disabled
+            else
+            {
+                playserver.unloadvid();
+            }
         }
 
         private void btnUp_Click(object sender, EventArgs e)
@@ -375,21 +469,20 @@ namespace PiVT_Desktop
             }
         }
 
-        private void openPlaylistToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //TODO: ask the user for the playlist
-            openFileDialog1.ShowDialog();
-        }
-
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-            PlaylistChange(openFileDialog1.FileName);
-        }
-
         private void cbLoopItem_CheckedChanged(object sender, EventArgs e)
         {
             cbContPlay.Enabled = !cbContPlay.Checked;
-            
+
+            if (cbLoopItem.Checked)
+            {
+                // Load the video file in the background as well
+                playserver.loadvid(dgvVideos.Rows[dgvVideos.SelectedCells[0].RowIndex].Cells[0].Value.ToString());
+            }
+            else
+            {
+                // Unload background video file
+                playserver.unloadvid();
+            }
         }
 
         private void updateTally()
@@ -457,15 +550,88 @@ namespace PiVT_Desktop
 
         private void dgvVideos_SelectionChanged(object sender, EventArgs e)
         {
-            //Load selected
+            //Check something was actually selected
+            if (dgvVideos.SelectedCells.Count <= 0)
+                return;
+            if (dgvVideos.SelectedCells[0].RowIndex == playingindex)
+                return;
+
+            //Load selected if play next is ticked
+            if (true == cbContPlay.Checked && true == playserver.playing)
             try
             {
+                cbContPlay.Text = "Auto-play selected item";
                 playserver.loadvid(dgvVideos.Rows[dgvVideos.SelectedCells[0].RowIndex].Cells[0].Value.ToString());
             }
             catch
             {
                 //Doesn't really matter if this fails
             }
+        }
+
+        private void openPlaylistToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            PlaylistChange(openFileDialog1.FileName);
+        }
+
+        private void savePlaylistToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            playlist.savePlaylist();
+        }
+
+        private void namePlaylistToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.ShowDialog();
+        }
+
+        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            playlist.plname = saveFileDialog1.FileName;
+            playlist.savePlaylist();
+            savePlaylistToolStripMenuItem.Enabled = true;
+        }
+
+        private void newPlaylistToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            confirmSavePlaylist();
+            playlist = new PlayListLoader();
+        }
+
+        void confirmSavePlaylist()
+        {
+            DialogResult dialogResult = MessageBox.Show("Save the current playlist?", "Save?", MessageBoxButtons.YesNo);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                if (playlist.plname != "")
+                {
+                    playlist.savePlaylist();
+                }
+                else
+                {
+                    saveFileDialog1.ShowDialog();
+                }
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+            }
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            AddItem box = new AddItem(ref playlist, ref playserver);
+            box.playlistChanged += new playlistChangedHandler(playlistUpdate);
+            box.Show();
+        }
+
+        void playlistUpdate(object sender, EventArgs e)
+        {
+            PlaylistRefresh();
         }
     }
 }
